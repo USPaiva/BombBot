@@ -11,7 +11,6 @@ from os import listdir
 import time
 from pathlib import Path
 import csv
-from torch import imag
 import yaml
 import random
 import requests
