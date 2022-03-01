@@ -1,0 +1,174 @@
+#******************************* BombCrypto Bot *********************************#
+#────────────────────────────────────────────────────────────────────────────────#
+#********************************************************************************#
+#********************* Please consider buying me a coffee 😁 ********************#
+#********************************************************************************#
+#******** BUSD/BCOIN (BEP20): 0x614247F846fbB18F9B25FebA48357e3336a9cDD0   ******#
+#********************************************************************************#    
+  heroes_work_mod:
+    # Properties that identifies heroes to work according rarity and life %;
+    #   Available options: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 or 100.
+    Common: 60
+    Rare: 40
+    SuperRare: 30
+    Epic: 30
+    Legend: 30
+    SuperLegend: 30
+  # [en_US] Time intervals configuration
+  # [pt_BR] Configurações de intervalos de tempo
+  time_intervals:
+    # [en_US] Time interval for check if there are available heroes to work
+    # Default value (in minutes): [10,15] [min value, max value]
+    # [pt_BR] Intervalo de tempo para verificar se há heróis disponíveis para trabalhar
+    # Valor padrão (em minutos): [10,15] [valor minimo, valor maximo]
+    send_heroes_for_work: [10,15]
+    
+    # [en_US] Time interval to update heroes position in the map
+    # Default value (in minutes): [3,5] [min value, max value]
+    # [pt_BR] Intervalo de tempo para atualizar a posição dos heróis no mapa
+    # Valor padrão (em minutos): [3,5] [valor minimo, valor maximo]
+    refresh_heroes_positions: [3,5]
+
+    # [en_US] Time interval to update the report of Bcoins
+    # Default value (in minutes): 1
+    # [pt_BR] Intervalo de tempo para atualizar o relatorio de Bcoins
+    # Valor padrão (em minutes): 1
+    reportBcoin: 1
+
+    # [en_US] Time interval between movements
+    # Default value (in seconds): 1 
+    # [pt_BR] Intervalo de tempo entre movimentos
+    # Valor padrão (em segundos): 1
+    interval_between_movements: 1
+    # [en_US] Time interval for the Pause
+    # Default value (in minutes): 30 
+    # [pt_BR] Intervalo de tempo de pausa
+    # Valor padrão (em minutos): 30
+    Pause: 30
+    # [en_US]
+    # the number of accounts are going to be used, Default value: 2
+    # [pt_BR]
+    # numero de contas a serem usadas, Valor padrão: 2
+    acc: 2
+    # [en_US]
+    # Default value for the error margin of the new window button to select a last opened page: 35
+    # [pt_BR]
+    # Valor padrão de margem de erro do botão new window para selecionar a ultima pagina aberta: 35
+    up: 35
+
+  # Multi account for linux with firefox
+  # Use True for enable and False for unable
+  maubuntu: False
+  # Multi account for windows
+  # Use True for enable and False for unable
+  mawindows: False
+  
+  # [en_US] Value of chests
+  # [pt_BR] Valor de cada bau
+  value_chests:
+    value_chest1: 0.008
+    value_chest2: 0.024
+    value_chest3: 0.128
+    value_chest4: 0.256
+  # [en_US] Metamask configs
+  # [pt_BR] Configs da metamask
+  metamask:
+    enable_login_metamask: false
+    password: "METAMASK PASSWORD"
+  # [en_US] new login system configs
+  # [pt_BR] Configs do novo sistema de login
+  User_login:
+    enable_login: False
+
+  # [en_US] How confident the bot needs to be to click the buttons (values from 0 to 1. 0 is the minimum value, 1 is the maximum value)
+  # [pt_BR] O quão confiante o bot precisa estar para clicar nos botões (valores entre 0 e 1. 0 é o valor mínimo, 1 é o valor máximo)
+  threshold:
+    # [en_US]
+    # Default value: 0.75
+    # [pt_BR]
+    # Valor padrão: 0.75
+    default: 0.75
+    # [en_US]
+    # Default value: 0.5
+    # [pt_BR]
+    # Valor padrão: 0.5
+    error: 0.5
+    # [en_US]
+    # Default value: 0.8
+    # [pt_BR]
+    # Valor padrão: 0.8
+    select_wallet_buttons: 0.8
+    # [en_US]
+    # Default value: 0.9
+    # [pt_BR]
+    # Valor padrão: 0.9
+    go_to_work_btn: 0.9
+
+    # [en_US]
+    # Default value: 0.9
+    # [pt_BR]
+    # Valor padrão: 0.9
+    green_bar: 0.9
+
+    # [en_US]
+    # Default value: 0.7
+    # [pt_BR]
+    # Valor padrão: 0.7
+    full_bar: 0.7
+
+    # [en_US]
+    # Default value: 0.5
+    # [pt_BR]
+    # Valor padrão: 0.5
+    chest: 0.5
+
+  # [en_US] distance in pixels to click the work button
+  # [pt_BR] distancia em pixels para clickar no botão work
+  offsets:
+    work_button: [120,140]           # [min value, max value]
+    work_button_full: [90,110]       # [min value, max value]
+    work_button_all: [10,50]         # [min value, max value]
+    character_indicator: [100,200]   # [min value, max value]
+
+  scroll_heroes:
+      # total number of times the screen scrolls down
+      repeat: 3
+
+      # distance when scrolling down
+      distance: -375
+
+      # duration of scrolling
+      duration: 2 
+
+      # Wait time to stop scrolling before checking the heroes on the screen.
+      wait: 1
+
+  # [en_US] Option for save logs to a file (logs.txt)
+  # Default value: False
+  # Available options: False or True
+  # [pt_BR] Opção para salvar os logs em arquivo (logs.txt)
+  # Valor padrão : False
+  # Opções disponíveis: False ou True
+  save_log_to_file: True  
+
+  # [en_US] monitor that bot will use for play
+  # Default value: 1
+  # [pt_BR] monitor que o bot usara para jogar
+  # Valor padrão: 1
+  monitor_to_use: 1
+
+  # [en_US] show emojis in console
+  # Default value: false
+  # [pt_BR] mostra emojis no console 
+  # Valor padrão: false
+  emoji: False
+
+  # [en_US] show more information
+  # Default value: false
+  # [pt_BR] mostra mais informações 
+  # Valor padrão: false
+  debug: False
+
+  # [en] PLEASE DON'T CHANGE
+  # [pt_br] POR FAVOR NÃO ALTERE
+  version: "1.0.7"
