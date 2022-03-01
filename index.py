@@ -11,6 +11,7 @@ from os import listdir
 import time
 from pathlib import Path
 import csv
+from torch import imag
 import yaml
 import random
 import requests
@@ -567,13 +568,15 @@ def login():
     if userData["enable_login"] is not False:    
         if  clickButton(im.user):
             userR = us.user[pro]
+            time.sleep(2)
             pyautogui.typewrite(userR, interval=0.1)
             sleep(1, 3)
         if  clickButton(im.pswd):
             pswdR = us.pswd[pro]
+            time.sleep(2)
             pyautogui.typewrite(pswdR, interval=0.1)
             sleep(1, 3)
-        if clickButton(login):
+        if clickButton(im.login):
            time.sleep(2)
             
     metamask_unlock_coord = positions(im.metamask_unlock_img)
@@ -705,7 +708,7 @@ def randomMouseMovement():
 
 def checkUpdates():
     data = requests.get(
-        'https://raw.githubusercontent.com/carecabrilhante/BombBot/main/config/version.yaml')
+        'https://raw.githubusercontent.com/carecabrilhante/bombcrypto-bcbot/main/config/version.yaml')
     try:
         streamVersionGithub = yaml.safe_load(data.text)
         version = streamVersionGithub['version']
