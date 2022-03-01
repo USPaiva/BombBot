@@ -37,5 +37,7 @@ $0
 
 ## Credits:
 [mpcabete](https://github.com/mpcabete)  (principal base of this code)
+
 [vin350](https://github.com/vin350) (Telegram integration)
+
 [newerton](https://github.com/newerton) (system of report Bcoins in .csv)
