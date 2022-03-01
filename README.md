@@ -13,7 +13,7 @@ multiaccount for windows.
 
 multiaccount for linux Ubuntu using firefox, if you want use other browser you need to change the images.
 
-# BombCrypto BCBOT
+# BombBot
 This bot is a fork of the old version of the vini350 bot.
 
 This is a python bot to automate BombCrypto game.
