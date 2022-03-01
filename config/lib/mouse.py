@@ -42,9 +42,9 @@ def randomize_values(x, w, y, h):
 
 def click_randomly_in_position(x, y, w, h):
     x, y, move_duration, click_duration, time_between  = randomize_values(x, w, y, h)
-    pyautogui.moveTo(x, y, duration=move_duration, tween=pyautogui.easeOutQuad)
+    pyautogui.moveTo(x, y)
     time.sleep(1)
-    pyautogui.click(duration=click_duration)
+    pyautogui.click()
 
 
 def scroll_and_click_on_targets(safe_scroll_target: str, repeat: int, distance:float, duration: float, wait:float, function_between, execute_before=True):
@@ -56,9 +56,9 @@ def scroll_and_click_on_targets(safe_scroll_target: str, repeat: int, distance:f
         move_to(safe_scroll_target)
         pyautogui.mouseDown(duration=0.1)
         pyautogui.moveRel(0, distance, duration)
-        time.sleep(0.3)
+        #time.sleep(0.3)
         pyautogui.mouseUp(duration=0.1)
-        time.sleep(wait)
+        #time.sleep()
         click_when_target_appears(safe_scroll_target)
         res.append(function_between())    
     
@@ -79,9 +79,9 @@ def click_one_target(target: str):
     try:
         x_left, y_top, w, h = im.get_one_target_position(target)
         x, y, move_duration, click_duration, time_between  = randomize_values(x_left, w, y_top, h)
-        pyautogui.moveTo(x, y, duration=move_duration, tween=pyautogui.easeOutQuad)
-        time.sleep(time_between)
-        pyautogui.click(duration=click_duration)
+        pyautogui.moveTo(x, y)
+        time.sleep()
+        pyautogui.click()
         result = True
     except Exception as e:
         return None
@@ -94,7 +94,7 @@ def move_to(target:str):
         try:
             x, y, w, h = im.get_one_target_position(target)
             x, y, move_duration, click_duration, time_between  = randomize_values(x, w, y, h)
-            pyautogui.moveTo(x, y, duration=move_duration, tween=pyautogui.easeOutQuad)
+            pyautogui.moveTo(x, y)
             return True
         except Exception as e:
             return None
