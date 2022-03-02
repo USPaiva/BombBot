@@ -1,7 +1,7 @@
 import yaml
 
-user = ["USPaiva", "raul", "lendario116", "lendario115", "lendario65", "lendario66", "lendario68"]
-pswd = ["farminsano", "farminsano", "kreese22", "kreese22", "kreese22", "kreese22", "kreese22"]
+user = []
+pswd = []
 
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
