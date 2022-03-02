@@ -3,7 +3,6 @@ import yaml
 user = []
 pswd = []
 pro = 0
-
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
         stream = s.read()
@@ -19,11 +18,11 @@ except FileNotFoundError:
     exit()
     
 acc = configTimeIntervals['acc']
-n = acc+1
+n = acc
 def accounts():
-    for w in range(1,n):
+    for w in range(0,n):
         print("Profile",w)
-        account = str(input("user account:\t"))
+        account = ["USPaiva", "raul", "lendario116", "lendario115", "lendario65", "lendario66", "lendario68"]
         password = str(input("password:\t"))
-        user.append(account)
+        user.append(account[w])
         pswd.append(password)
