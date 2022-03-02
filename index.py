@@ -1300,7 +1300,7 @@ def process():
             #sys.stdout.flush()
             time.sleep(general_check_time)
             checkThreshold()
-            if mawindows is True:
+            if mawindows is True or maubuntu is True :
                 if us.pro < acc:
                     us.pro = us.pro+1
                 else:
