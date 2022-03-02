@@ -650,13 +650,12 @@ def refreshHeroesPositions():
     else:
         return False
 
-pro = 0
+
 
 def login():
     global login_attempts
-
     randomMouseMovement()
-
+    print(us.pro)
     if clickButton(im.connect_wallet_btn_img):
         logger('Connect wallet button detected, logging in!', emoji='🎉')
         time.sleep(2)
@@ -666,13 +665,15 @@ def login():
     
     if userData["enable_login"] is not False:    
         if  clickButton(im.user):
-            userR = us.user[pro]
+            userR = us.user[us.pro]
             print(userR)
+            time.sleep(1)
             pyautogui.typewrite(userR, interval=0.1)
             sleep(1, 3)
         if  clickButton(im.pswd):
-            pswdR = us.pswd[pro]
+            pswdR = us.pswd[us.pro]
             print(pswdR)
+            time.sleep(1)
             pyautogui.typewrite(pswdR, interval=0.1)
             sleep(1, 3)
         if clickButton(im.login):
@@ -1172,7 +1173,7 @@ def getBcoins():
         #cropped = image[193:228, 26:200]
         digits = getDigits(image)
         headers = ['porfile','date', 'bcoins']
-        content = [pro,dateFormatted(), digits.replace('.', ',')]
+        content = [us.pro,dateFormatted(), digits.replace('.', ',')]
         writeCsv('bcoins-report', headers, content)
         logger('Bcoin: {}'.format(digits), emoji='🤑')
         return digits
@@ -1199,7 +1200,6 @@ def writeCsv(filename, headers, content):
 #################################################
 
 def process(): 
-    global pro
     n = acc
     windows = []
     
@@ -1301,13 +1301,13 @@ def process():
             time.sleep(general_check_time)
             checkThreshold()
             if mawindows is True:
-                if pro < acc:
-                    pro = pro+1
+                if us.pro < acc:
+                    us.pro = us.pro+1
                 else:
-                    pro = 0
+                    us.pro = 0
             
             
-            print(pro)
+            print(us.pro)
 
 #########################################################################################
 def main():
