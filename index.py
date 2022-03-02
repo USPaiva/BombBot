@@ -14,9 +14,8 @@ import csv
 import yaml
 import random
 import requests
-import config.lib.contas as us
+import config.lib.imagens as us
 import config.lib.imagens as im
-import config.lib.mouse as ms
 
 banner = """
 #******************************* BombCrypto Bot ********************************************#
@@ -28,7 +27,7 @@ banner = """
 #*******************************************************************************************#
 ---> Press CTRL+C to kill the bot or send /stop on Telegram.
 ---> Some configs can be found in the /config/config.yaml file.
----> futures updates can be found in the https://github.com/carecabrilhante/BombBot
+---> futures updates can be found in the https://github.com/carecabrilhante/bombcrypto-bot
 ============================================================================================
 """
 
@@ -52,7 +51,6 @@ try:
     offsets = streamConfig['offsets']
     maubuntu = streamConfig['maubuntu']
     mawindows = streamConfig['mawindows']
-    heroesmod = streamConfig['heroes_work_mod']
 except FileNotFoundError:
     print('Error: config.yaml file not found, rename EXAMPLE-config.yaml to config.yaml inside /config folder')
     print('Erro: Arquivo config.yaml não encontrado, renomear EXAMPLE-config.yaml para config.yaml dentro da pasta /config')
@@ -92,7 +90,6 @@ try:
     stream.close()
 except FileNotFoundError:
     print('Info: Telegram not configure, rename EXAMPLE-telegram.yaml to telegram.yaml')
-
 
 hc = HumanClicker()
 pyautogui.PAUSE = streamConfig['time_intervals']['interval_between_movements']
@@ -389,7 +386,7 @@ def clickButton(img, name=None, timeout=3, threshold=configThreshold['default'])
             continue
 
         x, y, w, h = matches[0]
-        # pyautogui.moveTo(x+(w/2),y+(h/2),1)
+        #pyautogui.moveTo(x+(w/2),y+(h/2))
         # pyautogui.moveTo(int(random.uniform(x, x+w)),int(random.uniform(y, y+h)),1)
         hc.move((int(random.uniform(x, x+w)), int(random.uniform(y, y+h))), 1)
         pyautogui.click()
@@ -449,6 +446,30 @@ def show(rectangles=None, img=None):
     cv2.waitKey(0)
 
 
+def scroll():
+    offset = offsets['character_indicator']
+    offset_random = random.uniform(offset[0], offset[1])
+
+    # width, height = pyautogui.size()
+    # pyautogui.moveTo(width/2-200, height/2,1)
+    character_indicator_pos = positions(im.character_indicator)
+    if character_indicator_pos is False:
+        return
+
+    x, y, w, h = character_indicator_pos[0]
+    hc.move((int(x+(w/2)), int(y+h+offset_random)), np.random.randint(1, 2))
+
+    if not streamConfig['use_click_and_drag_instead_of_scroll']:
+        pyautogui.click()
+        pyautogui.scroll(-streamConfig['scroll_size'])
+    else:
+        # pyautogui.dragRel(0,-streamConfig['click_and_drag_amount'],duration=1, button='left')
+        pyautogui.mouseDown(button='left')
+        hc.move((int(x), int(
+            y+(-streamConfig['click_and_drag_amount']))), np.random.randint(1, 2))
+        pyautogui.mouseUp(button='left')
+
+
 def clickButtons():
     buttons = positions(im.go_work_img, threshold=configThreshold['go_to_work_btn'])
     offset = offsets['work_button_all']
@@ -487,6 +508,84 @@ def isWorking(bar, buttons):
         if isBelow and isAbove:
             return False
     return True
+
+
+def clickGreenBarButtons():
+    offset = offsets['work_button']
+    green_bars = positions(im.green_bar, threshold=configThreshold['green_bar'])
+    buttons = positions(im.go_work_img, threshold=configThreshold['go_to_work_btn'])
+
+    if green_bars is False or buttons is False:
+        return
+
+    if streamConfig['debug'] is not False:
+        logger('%d green bars detected' % len(green_bars), emoji='🟩')
+        logger('%d buttons detected' % len(buttons), emoji='🔳')
+
+    not_working_green_bars = []
+    for bar in green_bars:
+        if not isWorking(bar, buttons):
+            not_working_green_bars.append(bar)
+    if len(not_working_green_bars) > 0:
+        logger('Clicking in %d heroes with green bar detected.' %
+               len(not_working_green_bars), telegram=False, emoji='👆')
+
+    # se tiver botao com y maior que bar y-10 e menor que y+10
+    for (x, y, w, h) in not_working_green_bars:
+        offset_random = random.uniform(offset[0], offset[1])
+        # isWorking(y, buttons)
+        # pyautogui.moveTo(x+offset+(w/2),y+(h/2),1)
+        hc.move((int(x+offset_random+(w/2)), int(y+(h/2))),
+                np.random.randint(1, 2))
+        pyautogui.click()
+        global heroes_clicked_total
+        global heroes_clicked
+        heroes_clicked_total = heroes_clicked_total + 1
+        if heroes_clicked > 15:
+            logger('Too many hero clicks, try to increase the go_to_work_btn threshold',
+                   telegram=True, emoji='⚠️')
+            return
+        # cv2.rectangle(sct_img, (x, y) , (x + w, y + h), (0,255,255),2)
+        sleep(1, 3)
+    return len(not_working_green_bars)
+
+
+def clickFullBarButtons():
+    offset = offsets['work_button_full']
+    full_bars = positions(im.full_stamina, threshold=configThreshold['full_bar'])
+    buttons = positions(im.go_work_img, threshold=configThreshold['go_to_work_btn'])
+
+    if full_bars is False or buttons is False:
+        return
+
+    if streamConfig['debug'] is not False:
+        logger('%d FULL bars detected' % len(full_bars), emoji='🟩')
+        logger('%d buttons detected' % len(buttons), emoji='🔳')
+
+    not_working_full_bars = []
+    for bar in full_bars:
+        if not isWorking(bar, buttons):
+            not_working_full_bars.append(bar)
+
+    if len(not_working_full_bars) > 0:
+        logger('Clicking in %d heroes with FULL bar detected.' %
+               len(not_working_full_bars), telegram=True, emoji='👆')
+
+    for (x, y, w, h) in not_working_full_bars:
+        offset_random = random.uniform(offset[0], offset[1])
+        # pyautogui.moveTo(x+offset+(w/2),y+(h/2),1)
+        hc.move((int(x+offset_random+(w/2)), int(y+(h/2))),
+                np.random.randint(1, 2))
+        pyautogui.click()
+        global heroes_clicked_total
+        global heroes_clicked
+        heroes_clicked_total = heroes_clicked_total + 1
+        if heroes_clicked > 15:
+            logger('Too many hero clicks, try to increase the go_to_work_btn threshold',
+                   telegram=True, emoji='⚠️')
+            return
+        sleep(1, 3)
+    return len(not_working_full_bars)
 
 
 def currentScreen():
@@ -566,13 +665,15 @@ def login():
     
     if userData["enable_login"] is not False:    
         if  clickButton(im.user):
+            time.sleep(1)
             userR = us.user[pro]
-            time.sleep(2)
+            print(userR)
             pyautogui.typewrite(userR, interval=0.1)
             sleep(1, 3)
         if  clickButton(im.pswd):
+            time.sleep(1)
             pswdR = us.pswd[pro]
-            time.sleep(2)
+            print(pswdR)
             pyautogui.typewrite(pswdR, interval=0.1)
             sleep(1, 3)
         if clickButton(im.login):
@@ -636,8 +737,50 @@ def handleError():
         login()
     else:
         return False
-       
 
+
+def getMoreHeroes():
+    global next_refresh_heroes
+    global heroes_clicked
+
+    logger('Search for heroes to work', emoji='🏢')
+
+    goToHeroes()
+
+    if streamConfig['select_heroes_mode'] == "full":
+        logger('Sending heroes with full stamina bar to work!', emoji='⚒️')
+    elif streamConfig['select_heroes_mode'] == "green":
+        logger('Sending heroes with green stamina bar to work!', emoji='⚒️')
+    else:
+        logger('Sending all heroes to work!', emoji='⚒️')
+
+    buttonsClicked = 0
+    heroes_clicked = 0
+    empty_scrolls_attempts = streamConfig['scroll_attempts']
+    next_refresh_heroes = random.uniform(
+        configTimeIntervals['send_heroes_for_work'][0], configTimeIntervals['send_heroes_for_work'][1])
+
+    while(empty_scrolls_attempts > 0):
+        if streamConfig['select_heroes_mode'] == 'full':
+            buttonsClicked = clickFullBarButtons()
+            if buttonsClicked is not None:
+                heroes_clicked += buttonsClicked
+        elif streamConfig['select_heroes_mode'] == 'green':
+            buttonsClicked = clickGreenBarButtons()
+            if buttonsClicked is not None:
+                heroes_clicked += buttonsClicked
+        else:
+            buttonsClicked = clickButtons()
+            if buttonsClicked is not None:
+                heroes_clicked += buttonsClicked
+
+        if buttonsClicked == 0 or buttonsClicked is None:
+            empty_scrolls_attempts = empty_scrolls_attempts - 1
+            scroll()
+        sleep(1, 3)
+    logger('{} total heroes sent since the bot started'.format(
+        heroes_clicked_total), telegram=True, emoji='🦸')
+    goToTreasureHunt()
 
 def checkLogout():
     if currentScreen() == "unknown" or currentScreen() == "login":
@@ -881,6 +1024,30 @@ def clickrestButtons():
         sleep(1, 3)
     return len(not_working_commons)
 
+def getsuperHeroes():
+
+    logger('Search for heroes to work', emoji='🏢')
+
+    goToHeroes()
+
+    buttonsClicked = 0
+    heroes_clicked = 0
+    empty_scrolls_attempts = streamConfig['scroll_attempts']
+    
+    clickButton(im.allwork)
+    #clickButton(rest)
+    time.sleep(2)    
+    while(empty_scrolls_attempts > 0):
+        buttonsClicked = clickrestButtons()
+        if buttonsClicked is not None:
+            heroes_clicked += buttonsClicked
+
+        if buttonsClicked == 0 or buttonsClicked is None:
+            empty_scrolls_attempts = empty_scrolls_attempts - 1
+            scroll()
+        sleep(1, 3)
+    goToTreasureHunt()
+
 
 def clickwin(img, name=None, timeout=3, threshold=configThreshold['default']):
     if not name is None:
@@ -1032,90 +1199,15 @@ def writeCsv(filename, headers, content):
 
 
 #################################################
-def who_needs_work():
-        heroes_bar = [
-            "hero_bar_0", "hero_bar_10", "hero_bar_20",
-            "hero_bar_30", "hero_bar_40", "hero_bar_50",
-            "hero_bar_60", "hero_bar_70", "hero_bar_80",
-            "hero_bar_90", "hero_bar_100"
-            ]
-        heroes_rarity = [
-            "hero_rarity_Common", "hero_rarity_Rare", "hero_rarity_SuperRare", "hero_rarity_Epic", "hero_rarity_Legend", "hero_rarity_SuperLegend"
-        ]
 
-        scale_factor = 10
-
-        logger('Search for heroes to work', emoji='🏢')
-        
-        goToHeroes()
-        
-        def click_available_heroes():
-            n_clicks = 0
-            screen_img = im.img.screen()
-            buttons_position = im.get_target_positions("button_work_unchecked", not_target="button_work_checked", screen_image=screen_img)
-            #logger(f"👁️  Found {len(buttons_position)} Heroes resting:")
-            
-            if not buttons_position:
-                return 0
-
-            x_buttons = buttons_position[0][0]
-            height, width = im.img.TARGETS["hero_search_area"].shape[:2]
-            screen_img = screen_img[:,x_buttons-width-im.img.MONITOR_LEFT:x_buttons - im.img.MONITOR_LEFT, :]
-            #logger("↳", end=" ", datetime=False)
-            for button_position in buttons_position:
-                x,y,w,h = button_position
-                search_img = screen_img[y:y+height, :, :]
-
-                rarity_max_values = [im.get_compare_result(search_img, im.img.TARGETS[rarity]).max() for rarity in heroes_rarity]
-                rarity_index, rarity_max_value= 0, 0
-                for i, value in enumerate(rarity_max_values):
-                    rarity_index, rarity_max_value = (i, value) if value > rarity_max_value else (rarity_index, rarity_max_value)
-
-                hero_rarity = heroes_rarity[rarity_index].split("_")[-1]
-                #logger(f"{hero_rarity}:", end=" ", datetime=False)
-
-                life_max_values = [im.get_compare_result(search_img, im.img.TARGETS[bar]).max() for bar in heroes_bar]
-                life_index, life_max_value= 0, 0
-                for i, value in enumerate(life_max_values):
-                    life_index, life_max_value = (i, value) if value >= life_max_value else (life_index, life_max_value)
-
-
-                #logger(f"{life_index*scale_factor}%", end=" ", datetime=False)
-                if life_index*scale_factor >= heroesmod[hero_rarity]:
-                    logger('Sending heroe to work!', emoji='⚒️')
-                    ms.click_randomly_in_position(x,y,w,h)
-                    n_clicks += 1
-                    #logger("💪;", end=" ",datetime=False)
-                else:
-                    logger("💤")
-
-            #logger("", datetime=False)
-            return n_clicks
-        
-        n_clicks_per_scrool = ms.scroll_and_click_on_targets(
-            safe_scroll_target="hero_bar_vertical",
-            repeat= us.configscroll['repeat'],
-            distance=us.configscroll['distance'],
-            duration=us.configscroll['duration'],
-            wait=us.configscroll['wait'],
-            function_between=click_available_heroes
-        )
-        
-        logger('{} total heroes sent since the bot started'.format(n_clicks_per_scrool), telegram=True, emoji='🦸')
-        logger(f"🏃 {sum(n_clicks_per_scrool)} new heros sent to explode everything 💣💣💣.")
-        return True
-
-
-##################################################
 def process(): 
-    im.img.load_targets()
-    #print(im.img.TARGETS)
-    n = acc+1
+    
+    n = acc
     windows = []
     
     if mawindows is False and maubuntu is False:
         windows.append({
-                "window": 1,
+                "window": 0,
                 "login" : 0,
                 "heroes" : 0,
                 "new_map" : 0,
@@ -1135,7 +1227,7 @@ def process():
             })
     
     if maubuntu is True:
-        for w in range(1, n) :
+        for w in range(0, n) :
             windows.append({
                 "window": w,
                 "login" : 0,
@@ -1145,8 +1237,8 @@ def process():
                 "refresh_heroes" : 0
                 })
             
-    if userData["enable_login"] is not False:
-        us.accounts()
+    #if userData["enable_login"] is not False:
+    #    us.accounts()
            
     while True:
         
@@ -1173,8 +1265,7 @@ def process():
             if now - last["heroes"] > next_refresh_heroes * 60:
                 last["heroes"] = now
                 last["refresh_heroes"] = now
-                who_needs_work()
-                #getMoreHeroes()
+                getMoreHeroes()
 
             if now - last["Bcoin"] > reportBcoin *60:
                 last["Bcoin"] = now
@@ -1203,16 +1294,22 @@ def process():
             #sys.stdout.flush()
             time.sleep(general_check_time)
             checkThreshold()
-            pro=last["window"]
+            
             
             if mawindows is True:
+                if pro < acc:
+                    pro = pro+1
+                else:
+                    pro = 0
                 last["window"].activate()
                 time.sleep(2)
             
             if maubuntu is True:
+                pro=last["window"]
                 last["window"]
                 changewin()
                 sleep(1, 2)
+            print(pro)
 
 #########################################################################################
 def main():
