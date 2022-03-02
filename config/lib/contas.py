@@ -2,6 +2,7 @@ import yaml
 
 user = []
 pswd = []
+pro = 0
 
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
