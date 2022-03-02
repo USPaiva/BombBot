@@ -698,8 +698,8 @@ def login():
             logger(
                 'Found glitched sign button. Waiting to check if logged in', emoji='✔️')
         # time.sleep(25)
-                #waitForImage(im.teasureHunt_icon_img, timeout=30)
-                #handleError()
+        #waitForImage(im.teasureHunt_icon_img, timeout=30)
+        #handleError()
 
     if currentScreen() == "main":
         logger('Logged in', telegram=True, emoji='🎉')
@@ -1300,8 +1300,17 @@ def process():
             #sys.stdout.flush()
             time.sleep(general_check_time)
             checkThreshold()
-            if mawindows is True or maubuntu is True :
-                if us.pro < acc:
+            
+            if mawindows is True:
+                last["window"].activate()
+                time.sleep(2)
+            
+            if maubuntu is True:
+                last["window"]
+                changewin()
+                sleep(1, 2)
+            if mawindows is True or maubuntu is True:
+                if us.pro < acc-1:
                     us.pro = us.pro+1
                 else:
                     us.pro = 0
