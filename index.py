@@ -698,8 +698,8 @@ def login():
             logger(
                 'Found glitched sign button. Waiting to check if logged in', emoji='✔️')
         # time.sleep(25)
-                waitForImage(im.teasureHunt_icon_img, timeout=30)
-                handleError()
+                #waitForImage(im.teasureHunt_icon_img, timeout=30)
+                #handleError()
 
     if currentScreen() == "main":
         logger('Logged in', telegram=True, emoji='🎉')
