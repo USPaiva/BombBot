@@ -5,7 +5,7 @@ Update the login system, and support using multiaccount with this new system.
 
 report amount of bcoins per profile in .csv
 
-New system send heroes to work, now you can send by rarity and % life
+removed temporarity New system send heroes to work, now you can send by rarity and % life.
 
 # Support:
 
