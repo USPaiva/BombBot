@@ -40,7 +40,7 @@
     # the number of accounts are going to be used, Default value: 2
     # [pt_BR]
     # numero de contas a serem usadas, Valor padrão: 2
-    acc: 2
+    acc: 7
     # [en_US]
     # Default value for the error margin of the new window button to select a last opened page: 35
     # [pt_BR]
@@ -49,10 +49,10 @@
 
   # Multi account for linux with firefox
   # Use True for enable and False for unable
-  maubuntu: False
+  maubuntu: True
   # Multi account for windows
   # Use True for enable and False for unable
-  mawindows: True
+  mawindows: False
   
   # [en_US] Value of chests
   # [pt_BR] Valor de cada bau
@@ -69,7 +69,7 @@
   # [en_US] new login system configs
   # [pt_BR] Configs do novo sistema de login
   User_login:
-    enable_login: true
+    enable_login: True
 
   # [en_US] How confident the bot needs to be to click the buttons (values from 0 to 1. 0 is the minimum value, 1 is the maximum value)
   # [pt_BR] O quão confiante o bot precisa estar para clicar nos botões (valores entre 0 e 1. 0 é o valor mínimo, 1 é o valor máximo)
