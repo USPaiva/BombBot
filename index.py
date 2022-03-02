@@ -14,7 +14,7 @@ import csv
 import yaml
 import random
 import requests
-import config.lib.imagens as us
+import config.lib.contas as us
 import config.lib.imagens as im
 
 banner = """
@@ -650,6 +650,7 @@ def refreshHeroesPositions():
     else:
         return False
 
+pro = 0
 
 def login():
     global login_attempts
@@ -665,13 +666,11 @@ def login():
     
     if userData["enable_login"] is not False:    
         if  clickButton(im.user):
-            time.sleep(1)
             userR = us.user[pro]
             print(userR)
             pyautogui.typewrite(userR, interval=0.1)
             sleep(1, 3)
         if  clickButton(im.pswd):
-            time.sleep(1)
             pswdR = us.pswd[pro]
             print(pswdR)
             pyautogui.typewrite(pswdR, interval=0.1)
@@ -1088,7 +1087,6 @@ def changewin():
 
 #############################################
 BCOIN_BOX_IMAGE = './temp/bcoin-box.png'
-pro=0
 
 def loadImages(dir):
         file_names = listdir(dir)
@@ -1201,7 +1199,7 @@ def writeCsv(filename, headers, content):
 #################################################
 
 def process(): 
-    
+    global pro
     n = acc
     windows = []
     
@@ -1259,6 +1257,14 @@ def process():
         
         for last in windows:
             
+            if mawindows is True:
+                last["window"].activate()
+                time.sleep(2)
+            
+            if maubuntu is True:
+                last["window"]
+                changewin()
+                sleep(1, 2)
             #print(windows)
             #print(last["window"])
         
@@ -1294,21 +1300,13 @@ def process():
             #sys.stdout.flush()
             time.sleep(general_check_time)
             checkThreshold()
-            
-            
             if mawindows is True:
                 if pro < acc:
                     pro = pro+1
                 else:
                     pro = 0
-                last["window"].activate()
-                time.sleep(2)
             
-            if maubuntu is True:
-                pro=last["window"]
-                last["window"]
-                changewin()
-                sleep(1, 2)
+            
             print(pro)
 
 #########################################################################################
