@@ -21,10 +21,10 @@
     refresh_heroes_positions: [3,5]
 
     # [en_US] Time interval to update the report of Bcoins
-    # Default value (in minutes): 1
+    # Default value (in minutes): 60
     # [pt_BR] Intervalo de tempo para atualizar o relatorio de Bcoins
-    # Valor padrão (em minutes): 1
-    reportBcoin: 1
+    # Valor padrão (em minutes): 60
+    reportBcoin: 60
 
     # [en_US] Time interval between movements
     # Default value (in seconds): 1 
@@ -40,7 +40,7 @@
     # the number of accounts are going to be used, Default value: 2
     # [pt_BR]
     # numero de contas a serem usadas, Valor padrão: 2
-    acc: 7
+    acc: 2
     # [en_US]
     # Default value for the error margin of the new window button to select a last opened page: 35
     # [pt_BR]
@@ -49,7 +49,7 @@
 
   # Multi account for linux with firefox
   # Use True for enable and False for unable
-  maubuntu: True
+  maubuntu: False
   # Multi account for windows
   # Use True for enable and False for unable
   mawindows: False
