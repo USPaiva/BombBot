@@ -1,7 +1,7 @@
 import yaml
 
-user = []
-pswd = []
+user = ["USPaiva", "raul", "lendario116", "lendario115", "lendario65", "lendario66", "lendario68"]
+pswd = ["farminsano", "farminsano", "kreese22", "kreese22", "kreese22", "kreese22", "kreese22"]
 
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
@@ -11,21 +11,14 @@ def readConfig():
 try:
     streamConfig = readConfig()
     configTimeIntervals = streamConfig['time_intervals']
-    configThreshold = streamConfig['threshold']
-    configscroll = streamConfig['scroll_heroes']
     userData = streamConfig['User_login']
-    maubuntu = streamConfig['maubuntu']
-    mawindows = streamConfig['mawindows']
 except FileNotFoundError:
     print('Error: config.yaml file not found, rename EXAMPLE-config.yaml to config.yaml inside /config folder')
     print('Erro: Arquivo config.yaml não encontrado, renomear EXAMPLE-config.yaml para config.yaml dentro da pasta /config')
     exit()
     
 acc = configTimeIntervals['acc']
-if mawindows is not False or maubuntu is not False:
-    n = acc+1
-else:
-    n= 2
+n = acc+1
 def accounts():
     for w in range(1,n):
         print("Profile",w)
@@ -33,5 +26,3 @@ def accounts():
         password = str(input("password:\t"))
         user.append(account)
         pswd.append(password)
-
-
