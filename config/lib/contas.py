@@ -22,7 +22,7 @@ n = acc
 def accounts():
     for w in range(0,n):
         print("Profile",w)
-        account = ["USPaiva", "raul", "lendario116", "lendario115", "lendario65", "lendario66", "lendario68"]
+        account = str(input("user:\t"))
         password = str(input("password:\t"))
-        user.append(account[w])
+        user.append(account)
         pswd.append(password)
