@@ -1233,8 +1233,8 @@ def process():
                 "refresh_heroes" : 0
                 })
             
-    #if userData["enable_login"] is not False:
-    #    us.accounts()
+    if userData["enable_login"] is not False:
+        us.accounts()
            
     while True:
         
