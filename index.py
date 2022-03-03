@@ -1273,6 +1273,7 @@ def process():
 
             if now - last["Bcoin"] > reportBcoin *60:
                 last["Bcoin"] = now
+                sendMapReport()
                 openYourChestWindow()
             
             
