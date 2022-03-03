@@ -161,7 +161,7 @@ if telegramIntegration == True:
 
         def send_bcoin(update: Update, context: CallbackContext) -> None:
             update.message.reply_text('🔃 Proccessing...')
-            if sendBCoinReport() is None:
+            if openYourChestWindow() is None:
                 update.message.reply_text('😿 An error has occurred')
 
         def send_wallet(update: Update, context: CallbackContext) -> None:
@@ -285,9 +285,6 @@ def sendBCoinReport():
         return
     if(len(telegramChatId) <= 0 or telegramCoinReport is False):
         return
-
-    openChest()
-    
     
     coin = positions(im.coin_icon, return_0=True)
     if len(coin) > 0:
@@ -1165,6 +1162,7 @@ def openYourChestWindow():
             logger('Your Chest image created', emoji='🪟')
         
         getBcoins()
+        sendBCoinReport()
         clickButton(close_button)
         return True
 
