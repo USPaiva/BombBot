@@ -1,7 +1,7 @@
 # Version 2.0.0:
 what is new?
 
-Update the login system, and support using multiaccount with this new system.
+Update the login system, and support using multiaccount with this new system. for use edit the file contas.py on folder config :)
 
 report amount of bcoins per profile in .csv
 
