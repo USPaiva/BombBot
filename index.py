@@ -14,7 +14,7 @@ import csv
 import yaml
 import random
 import requests
-import config.lib.contas as us
+import config.contas as us
 import config.lib.imagens as im
 
 banner = """
@@ -1232,9 +1232,6 @@ def process():
                 "Bcoin" : 0,
                 "refresh_heroes" : 0
                 })
-            
-    if userData["enable_login"] is not False:
-        us.accounts()
            
     while True:
         
